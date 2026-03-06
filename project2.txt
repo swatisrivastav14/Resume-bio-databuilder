@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professional Resume Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{
+font-family:'Poppins',sans-serif;
+margin:0;
+background:linear-gradient(135deg,#eef2f7,#d9e4f5);
+}.container{ display:grid; grid-template-columns:1fr 1fr; height:100vh; }
+
+.form-section{ padding:25px; background:white; overflow:auto; border-right:3px solid #e6ecf5; }
+
+.preview-section{ padding:25px; overflow:auto; }
+
+h2{ margin-top:0; color:#2c3e50; }
+
+label{ font-size:14px; font-weight:500; }
+
+input,textarea{ width:100%; padding:10px; margin-top:5px; margin-bottom:15px; border-radius:8px; border:1px solid #ccd3e0; font-family:'Poppins'; }
+
+button{ padding:10px 16px; border:none; border-radius:8px; background:#4a6cf7; color:white; font-weight:500; cursor:pointer; margin-right:10px; }
+
+button:hover{ background:#3451d1; }
+
+.resume{ background:white; padding:30px; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.1); max-width:700px; margin:auto; }
+
+.header{ border-bottom:2px solid #e6ecf5; padding-bottom:15px; margin-bottom:20px; }
+
+.header h1{ margin:0; color:#1a2a44; }
+
+.header p{ margin:5px 0; color:#555; }
+
+.section{ margin-top:20px; }
+
+.section h3{ margin-bottom:6px; color:#4a6cf7; }
+
+.section p{ margin:0; color:#333; white-space:pre-line; }
+
+.role{ font-weight:500; color:#777; }
+
+</style>
+</head>
+<body><div class="container"><div class="form-section">
+<h2>Professional Resume Builder</h2><label>Full Name</label> <input id="name" placeholder="Your name">
+
+<label>Email</label> <input id="email" placeholder="Email">
+
+<label>Phone</label> <input id="phone" placeholder="Phone">
+
+<label>Target Company / Role</label> <input id="role" placeholder="Example: Frontend Developer at Google">
+
+<label>Education</label>
+
+<textarea id="education" placeholder="Your education"></textarea><label>Skills</label>
+
+<textarea id="skills" placeholder="Example: HTML, CSS, JavaScript"></textarea><label>Projects</label>
+
+<textarea id="projects" placeholder="Describe your projects"></textarea><label>Experience</label>
+
+<textarea id="experience" placeholder="Work or internship experience"></textarea><button onclick="generateResume()">Generate Resume</button> <button onclick="downloadPDF()">Download / Print</button>
+
+</div><div class="preview-section"><div class="resume" id="resumePreview"><div class="header">
+<h1 id="pname">Your Name</h1>
+<p id="pcontact"></p>
+<p class="role" id="prole"></p>
+</div><div class="section">
+<h3>Education</h3>
+<p id="pedu"></p>
+</div><div class="section">
+<h3>Skills</h3>
+<p id="pskills"></p>
+</div><div class="section">
+<h3>Projects</h3>
+<p id="pprojects"></p>
+</div><div class="section">
+<h3>Experience</h3>
+<p id="pexp"></p>
+</div></div></div></div><script>
+
+function generateResume(){
+
+const name=document.getElementById('name').value
+const email=document.getElementById('email').value
+const phone=document.getElementById('phone').value
+const role=document.getElementById('role').value
+const edu=document.getElementById('education').value
+const skills=document.getElementById('skills').value
+const projects=document.getElementById('projects').value
+const exp=document.getElementById('experience').value
+
+
+document.getElementById('pname').innerText=name
+
+document.getElementById('pcontact').innerText=email+" | "+phone
+
+document.getElementById('prole').innerText=role
+
+document.getElementById('pedu').innerText=edu
+
+document.getElementById('pskills').innerText=skills
+
+document.getElementById('pprojects').innerText=projects
+
+document.getElementById('pexp').innerText=exp
+
+}
+
+function downloadPDF(){
+window.print()
+}
+
+</script></body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swati Kumari Srivastav Resume</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            display: flex;
+            flex-wrap: wrap; /* Allows it to wrap on mobile */
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        /* LEFT COLUMN */
+        .sidebar {
+            width: 35%;
+            background-color: #dee4f0;
+            padding: 30px 20px;
+            min-height: 100vh;
+        }
+        /* RIGHT COLUMN */
+        .main-content {
+            width: 65%;
+            padding: 40px 30px;
+        }
+        /* MOBILE VIEW ADJUSTMENT */
+        @media (max-width: 600px) {
+            .sidebar, .main-content { width: 100%; min-height: auto; }
+        }
+        h1 {
+            font-size: 32px;
+            letter-spacing: 5px;
+            color: #4a647d;
+            text-transform: uppercase;
+            margin-top: 0;
+        }
+        h2 {
+            font-size: 16px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+            margin-top: 25px;
+        }
+        .section-header {
+            font-size: 20px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #4a647d;
+            margin: 25px 0 15px;
+            letter-spacing: 2px;
+        }
+        .contact-info, .personal-details { font-size: 13px; line-height: 1.6; }
+        .bullet-points { padding-left: 20px; font-size: 14px; margin-top: 5px; }
+        .edu-item { margin-bottom: 15px; font-size: 14px; }
+        .bold-italic { font-weight: bold; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="sidebar">
+        <h2>CONTACT</h2>
+        <div class="contact-info">
+            +91 9279044758<br>
+            MAIL ID: <a href="mailto:swatisrivastav219@gmail.com">swatisrivastav219@gmail.com</a>
+        </div>
+
+        <h2>COMMUNICATION</h2>
+        <p class="contact-info">I have strong communication skills proven through 2 debate certificates and my role as a student representative. I regularly interact with faculty and classmates, resolving issues smoothly.</p>
+
+        <h2>LEADERSHIP</h2>
+        <div class="contact-info">
+            <strong>Student Leadership & Event Support</strong><br>
+            <em>Ranchi Women's College | 2023 - Present</em>
+            <ul class="bullet-points">
+                <li>Supported communication between students and faculty.</li>
+                <li>Led a team for a successful fresher's welcome event on a budget.</li>
+                <li>Promoted teamwork and smooth execution.</li>
+            </ul>
+        </div>
+
+        <h2>PERSONAL DETAILS</h2>
+        <div class="personal-details">
+            Date of Birth: 14/06/2004<br>
+            <strong>Father's Name: Mr. Ranjan Srivastava</strong><br>
+            Languages: English, Hindi<br>
+            Marital Status: Unmarried<br>
+            Address: Ranchi, Jharkhand
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1>SWATIKUMARI<br>SRIVASTAV</h1>
+        <div style="font-size: 22px; letter-spacing: 2px;">STUDENT</div>
+
+        <div class="section-header">EDUCATION</div>
+        <div class="edu-item">
+            <span class="bold-italic">Bachelor of Arts in Computer Application (BA – CA)</span><br>
+            Ranchi Women’s College, Ranchi (2023 – 2026)<br>
+            SGPA: Sem 1: 7.15 | Sem 2: 8.31
+        </div>
+        <div class="edu-item">
+            <span class="bold-italic">Intermediate (12th) – Arts</span><br>
+            Ursuline Intermediate College (UIC), Ranchi<br>
+            Year: 2023 | Percentage: 72.2%
+        </div>
+        <div class="edu-item">
+            <span class="bold-italic">Matriculation (10th)</span><br>
+            Adarsh Vidya Mandir High School (AVM)<br>
+            Year: 2020 | Percentage: 82.43%
+        </div>
+
+        <div class="section-header">EXPERIENCE</div>
+        <div class="edu-item">
+            <span class="bold-italic">Student Coordinator – Department Activities</span><br>
+            Ranchi Women’s College | 2023 – Present
+            <ul class="bullet-points">
+                <li>Managed student concerns and departmental communication.</li>
+                <li>Organized welcome events within budget limits.</li>
+            </ul>
+        </div>
+        <div class="edu-item">
+            <span class="bold-italic">Shortlisted Candidate (Communication Roles)</span><br>
+            Forever & Helium | 2024
+            <ul class="bullet-points">
+                <li>Selected for Assistant HR and Network Marketing roles.</li>
+                <li>Focus remained on academic goals.</li>
+            </ul>
+        </div>
+
+        <div class="section-header">SUMMARY</div>
+        <p style="font-size: 14px; line-height: 1.6;">
+            Motivated and confident student pursuing a Bachelor of Arts in Computer Application (BA–CA) with excellent communication skills in English and Hindi. Known for leadership and maintaining respectful coordination with faculty and peers. Seeking opportunities to apply interpersonal and organizational skills in a professional environment.
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

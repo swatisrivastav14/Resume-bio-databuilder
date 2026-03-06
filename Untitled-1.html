@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <style>
+        body { font-family: monospace; padding: 20px; max-width: 800px; margin: auto; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .header { text-align: center; font-size: 24px; font-weight: bold; margin-bottom: 30px; border-bottom: 3px solid #000; padding-bottom: 10px; }
+        input, textarea { width: 100%; padding: 8px; margin: 5px 0; border: 2px solid #ccc; }
+        button { background: #007bff; color: white; padding: 12px 24px; border: none; cursor: pointer; font-weight: bold; }
+        .btn-grid { display: flex; gap: 50px; justify-content: center; margin-top: 50px; }
+        .btn-option { width: 150px; height: 100px; border: 3px solid #000; background: white; font-weight: bold; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        td { border: 2px solid #000; padding: 15px; vertical-align: top; }
+        .actions { display: flex; gap: 20px; justify-content: center; margin-top: 30px; }
+    </style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div id="page1" class="page active">
+    <div class="header">Resume Builder App</div>
+    <div style="text-align:center; font-size:18px; margin-bottom:30px;">What do you want to create?</div>
+    <div class="btn-grid">
+        <div class="btn-option" onclick="showPage('page2')">Resume</div>
+        <div class="btn-option" onclick="showPage('page3')">Bio-Data</div>
+    </div>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+    <div class="header">Resume Form</div>
+    Full Name       <input id="rname"><br>
+    Phone           <input id="rphone"><br>
+    Email           <input id="remail"><br>
+    Communication   <textarea id="rcomm"></textarea><br>
+    Education       <textarea id="reducation"></textarea><br>
+    Experience      <textarea id="rexp"></textarea><br>
+    Summary         <textarea id="rsummary"></textarea><br>
+    <button onclick="genResume()" style="margin-top:20px;">Generate Resume</button>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="page">
+    <div class="header">Bio-Data Form</div>
+    Full Name       <input id="bname"><br>
+    Age     <input id="bage" style="width:60px">     DOB   <input id="bdob" type="date" style="width:150px"><br>
+    Place           <input id="bplace"><br>
+    Caste           <input id="bcaste"><br>
+    Height          <input id="bheight"><br>
+    Education       <input id="bedu"><br>
+    Occupation      <input id="bocc"><br>
+    About Me        <textarea id="babout"></textarea><br>
+    Father Name     <input id="bfather"><br>
+    Mother Name     <input id="bmother"><br>
+    Phone           <input id="bphone"><br>
+    Address         <textarea id="baddr"></textarea><br>
+    <button onclick="genBiodata()" style="margin-top:20px;">Generate Bio-Data</button>
+</div>
+
+<!-- PAGE 4 -->
+<div id="page4" class="page">
+    <div class="header">RESUME</div>
+    <table>
+        <tr><td>Contact</td><td id="outContact">Available</td></tr>
+        <tr><td>Phone</td><td id="outPhone"></td></tr>
+        <tr><td>Email</td><td id="outEmail"></td></tr>
+        <tr><td>Skills</td><td id="outSkills"></td></tr>
+        <tr><td>Education</td><td id="outEdu"></td></tr>
+        <tr><td>Experience</td><td id="outExp"></td></tr>
+        <tr><td>Summary</td><td id="outSummary"></td></tr>
+    </table>
+    <div class="actions">
+        <button onclick="print()">Print</button>
+        <button onclick="download('resume')">Download PDF</button>
+    </div>
+</div>
+
+<!-- PAGE 5 -->
+<div id="page5" class="page">
+    <div id="outBName" style="text-align:center;font-size:28px;font-weight:bold;margin-bottom:20px;"></div>
+    Age: <span id="outBAge"></span>     DOB: <span id="outBDob"></span><br><br>
+    Place: <span id="outBPlace"></span><br>
+    Caste: <span id="outBCaste"></span><br>
+    Height: <span id="outBHeight"></span><br>
+    Education: <span id="outBEdu"></span><br>
+    Occupation: <span id="outBOcc"></span><br><br>
+    <b>────── About Me ──────</b><br>
+    <div id="outBAbout"></div><br>
+    <b>────── Family ───────</b><br>
+    Father: <span id="outBFather"></span><br>
+    Mother: <span id="outBMother"></span><br><br>
+    <b>────── Contact ──────</b><br>
+    Phone: <span id="outBPhone"></span><br>
+    Address: <span id="outBAddr"></span><br><br>
+    <div class="actions">
+        <button onclick="print()">Print</button>
+        <button onclick="download('biodata')">Download PDF</button>
+    </div>
+</div>
+
+<script>
+function showPage(id) {
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function genResume() {
+    document.getElementById('outPhone').textContent = document.getElementById('rphone').value;
+    document.getElementById('outEmail').textContent = document.getElementById('remail').value;
+    document.getElementById('outSkills').textContent = document.getElementById('rcomm').value || 'N/A';
+    document.getElementById('outEdu').textContent = document.getElementById('reducation').value || 'N/A';
+    document.getElementById('outExp').textContent = document.getElementById('rexp').value || 'N/A';
+    document.getElementById('outSummary').textContent = document.getElementById('rsummary').value || 'N/A';
+    showPage('page4');
+}
+
+function genBiodata() {
+    document.getElementById('outBName').textContent = document.getElementById('bname').value;
+    document.getElementById('outBAge').textContent = document.getElementById('bage').value;
+    document.getElementById('outBDob').textContent = document.getElementById('bdob').value;
+    document.getElementById('outBPlace').textContent = document.getElementById('bplace').value || 'N/A';
+    document.getElementById('outBCaste').textContent = document.getElementById('bcaste').value || 'N/A';
+    document.getElementById('outBHeight').textContent = document.getElementById('bheight').value || 'N/A';
+    document.getElementById('outBEdu').textContent = document.getElementById('bedu').value || 'N/A';
+    document.getElementById('outBOcc').textContent = document.getElementById('bocc').value || 'N/A';
+    document.getElementById('outBAbout').textContent = document.getElementById('babout').value || 'N/A';
+    document.getElementById('outBFather').textContent = document.getElementById('bfather').value || 'N/A';
+    document.getElementById('outBMother').textContent = document.getElementById('bmother').value || 'N/A';
+    document.getElementById('outBPhone').textContent = document.getElementById('bphone').value;
+    document.getElementById('outBAddr').textContent = document.getElementById('baddr').value || 'N/A';
+    showPage('page5');
+}
+
+function print() { window.print(); }
+function download(type) { alert('PDF download feature - Add jsPDF library'); }
+</script>
+
+</body>
+</html>

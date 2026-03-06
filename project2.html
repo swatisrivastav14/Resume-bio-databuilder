@@ -1,0 +1,301 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Resume Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script><style>
+*{box-sizing:border-box}
+body{
+font-family:'Poppins',sans-serif;
+margin:0;
+background:linear-gradient(120deg,#eef2f7,#d9e4f5);
+}
+
+header{
+background:#4a6cf7;
+color:white;
+padding:15px 30px;
+font-size:20px;
+font-weight:600;
+}
+
+.container{
+display:grid;
+grid-template-columns:420px 1fr;
+height:calc(100vh - 60px);
+}
+
+.form-section{
+background:white;
+padding:20px;
+overflow:auto;
+border-right:2px solid #e6ecf5;
+}
+
+.preview-section{
+padding:30px;
+overflow:auto;
+}
+
+label{
+font-size:13px;
+font-weight:500;
+}
+
+input,textarea,select{
+width:100%;
+padding:10px;
+margin-top:5px;
+margin-bottom:15px;
+border-radius:8px;
+border:1px solid #ccd3e0;
+font-family:'Poppins';
+}
+
+button{
+padding:10px 15px;
+border:none;
+border-radius:8px;
+background:#4a6cf7;
+color:white;
+font-weight:500;
+cursor:pointer;
+margin-right:8px;
+margin-top:5px;
+}
+
+button:hover{background:#3451d1}
+
+.resume{
+background:white;
+max-width:750px;
+margin:auto;
+padding:35px;
+border-radius:12px;
+box-shadow:0 15px 35px rgba(0,0,0,0.1);
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:2px solid #eee;
+padding-bottom:15px;
+margin-bottom:20px;
+}
+
+.profile{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.profile img{
+width:80px;
+height:80px;
+border-radius:50%;
+object-fit:cover;
+border:3px solid #4a6cf7;
+}
+
+.header h1{
+margin:0;
+font-size:24px;
+color:#1a2a44;
+}
+
+.contact{
+font-size:13px;
+color:#555;
+}
+
+.section{
+margin-top:18px;
+}
+
+.section h3{
+margin-bottom:6px;
+color:#4a6cf7;
+font-size:16px;
+}
+
+.section p{
+margin:0;
+color:#333;
+white-space:pre-line;
+font-size:14px;
+}
+
+.skill-bar{
+margin-bottom:8px;
+}
+
+.skill-name{
+font-size:13px;
+}
+
+.bar{
+height:6px;
+background:#ddd;
+border-radius:5px;
+overflow:hidden;
+}
+
+.bar-fill{
+height:100%;
+background:#4a6cf7;
+}
+
+@media print{
+header,.form-section,button{display:none}
+.container{grid-template-columns:1fr}
+.preview-section{padding:0}
+.resume{box-shadow:none}
+}
+
+</style></head><body><header>Smart Resume Builder</header><div class="container"><div class="form-section"><label>Full Name</label> <input id="name">
+
+<label>Email</label> <input id="email">
+
+<label>Phone</label> <input id="phone">
+
+<label>Upload Photo</label> <input type="file" id="photo" accept="image/*">
+
+<label>Professional Summary</label>
+
+<textarea id="summary"></textarea><label>Education</label>
+
+<textarea id="education"></textarea><label>Skills (comma separated)</label>
+
+<textarea id="skills"></textarea><label>Projects</label>
+
+<textarea id="projects"></textarea><label>Experience</label>
+
+<textarea id="experience"></textarea><label>Certifications</label>
+
+<textarea id="certificates"></textarea><label>Languages</label>
+
+<textarea id="languages"></textarea><button onclick="generateResume()">Generate Resume</button> <button onclick="downloadPDF()">Download PDF</button>
+
+</div><div class="preview-section"><div class="resume" id="resume"><div class="header"><div class="profile">
+<img id="pimg" src="https://via.placeholder.com/80">
+<div>
+<h1 id="pname">Your Name</h1>
+<div class="contact" id="pcontact"></div>
+</div>
+</div></div><div class="section">
+<h3>Summary</h3>
+<p id="psummary"></p>
+</div><div class="section">
+<h3>Education</h3>
+<p id="pedu"></p>
+</div><div class="section">
+<h3>Skills</h3>
+<div id="pskills"></div>
+</div><div class="section">
+<h3>Projects</h3>
+<p id="pprojects"></p>
+</div><div class="section">
+<h3>Experience</h3>
+<p id="pexp"></p>
+</div><div class="section">
+<h3>Certifications</h3>
+<p id="pcert"></p>
+</div><div class="section">
+<h3>Languages</h3>
+<p id="plang"></p>
+</div></div></div></div><script>
+
+function improve(text){
+if(!text) return ""
+let lines=text.split(/\n|\./)
+lines=lines.map(l=>{
+
+l=l.trim()
+if(l.length===0) return ""
+return l.charAt(0).toUpperCase()+l.slice(1)
+
+})
+
+return lines.join('. ')
+}
+
+function generateResume(){
+
+let name=document.getElementById('name').value
+let email=document.getElementById('email').value
+let phone=document.getElementById('phone').value
+
+let summary=improve(document.getElementById('summary').value)
+let edu=improve(document.getElementById('education').value)
+let projects=improve(document.getElementById('projects').value)
+let exp=improve(document.getElementById('experience').value)
+let cert=improve(document.getElementById('certificates').value)
+let lang=improve(document.getElementById('languages').value)
+
+let skills=document.getElementById('skills').value.split(',')
+
+
+document.getElementById('pname').innerText=name
+
+document.getElementById('pcontact').innerText=email+' | '+phone
+
+document.getElementById('psummary').innerText=summary
+
+document.getElementById('pedu').innerText=edu
+
+document.getElementById('pprojects').innerText=projects
+
+document.getElementById('pexp').innerText=exp
+
+document.getElementById('pcert').innerText=cert
+
+document.getElementById('plang').innerText=lang
+
+let skillHTML=""
+
+skills.forEach(s=>{
+
+s=s.trim()
+if(s.length===0) return
+
+skillHTML+=`
+<div class="skill-bar">
+<div class="skill-name">${s}</div>
+<div class="bar"><div class="bar-fill" style="width:${60+Math.random()*40}%"></div></div>
+</div>`
+
+})
+
+
+document.getElementById('pskills').innerHTML=skillHTML
+
+let file=document.getElementById('photo').files[0]
+
+if(file){
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+document.getElementById('pimg').src=e.target.result
+
+}
+
+reader.readAsDataURL(file)
+
+}
+
+}
+
+function downloadPDF(){
+
+let element=document.getElementById('resume')
+
+html2pdf().from(element).save('resume.pdf')
+
+}
+
+</script></body>
+</html>

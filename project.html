@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume & Bio-Data Builder</title>
+    <style>
+/* STYLING SECTION: Defines the look and feel of the app */
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background: linear-gradient(135deg, #d27aea 0%, #784ba2 100%); /* Purple-blue gradient background */
+    min-height: 100vh; 
+    margin: 0;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+.container {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2); /* Adds depth to the main white card */
+    text-align: center;
+    max-width: 650px;
+    width: 95%;
+    margin: 0 auto;
+    max-height: 90vh;
+    overflow-y: auto; /* Allows scrolling inside the container if content is long */
+}
+
+h1 {
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    border-bottom: 4px solid #34495e;
+    padding-bottom: 20px;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 22px;
+}
+
+h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.photo-upload {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* STYLED PLACEHOLDER: The dashed box shown before a photo is uploaded */
+.photo-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    border: 4px dashed #bdc3c7;
+    background: #ecf0f1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #7f8c8d;
+    cursor: pointer;
+    margin: 0 auto 10px;
+    transition: all 0.3s;
+}
+
+.photo-placeholder:hover {
+    border-color: #3498db;
+    color: white;
+    background: #3498db;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: cover; /* Ensures image doesn't stretch */
+    border: 4px solid #3498db;
+    margin: 0 auto 10px;
+    display: none; /* Hidden until an image is actually selected */
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    color: #34495e;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.btn-grid {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 15px 25px;
+    border: 3px solid #34495e;
+    background: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.3s;
+    flex: 1;
+    max-width: 150px;
+}
+
+.btn:hover {
+    background: #3498db;
+    color: white;
+    border-color: #3498db;
+    transform: translateY(-2px);
+}
+
+.generate-btn {
+    width: 100%;
+    height: 50px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.generate-btn:hover {
+    background: #229954;
+}
+
+.download-btn {
+    background: #e74c3c;
+    margin-top: 10px;
+}
+
+.download-btn:hover {
+    background: #c0392b;
+}
+
+.preview-content {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 25px;
+    margin-top: 25px;
+    text-align: left;
+    display: none;
+    max-height: 65vh;
+    overflow-y: auto;
+}
+
+.preview-content.show {
+    display: block;
+}
+
+.biodata-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.biodata-table th {
+    background: #3498db;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+.biodata-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.biodata-table tr:hover {
+    background: #f1f2f6;
+}
+
+/* RESPONSIVE DESIGN: Adjusts layout for mobile screens */
+@media (max-width: 600px) {
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+    .btn-grid {
+        flex-direction: column;
+    }
+    .container {
+        padding: 25px 20px;
+    }
+}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="homeScreen">
+        <h1>📝 Document Builder</h1>
+        <p style="color: #7f8c8d; margin-bottom: 30px;">Resume & Bio-Data Creator</p>
+        <div class="btn-grid">
+            <button class="btn" onclick="showResumeForm()">📄 Resume</button>
+            <button class="btn" onclick="showBioDataForm()">👤 Bio-Data</button>
+        </div>
+    </div>
+
+    <div id="resumeForm" style="display: none;">
+        <h2>📄 Create Resume</h2>
+        <div class="photo-upload">
+            <input type="file" id="resumePhoto" accept="image/*" style="display: none;">
+            <div class="photo-placeholder" onclick="document.getElementById('resumePhoto').click()">
+                📸 Photo
+            </div>
+            <img id="resumePhotoPreview" class="profile-photo" alt="Photo">
+        </div>
+        
+        <div class="form-group">
+            <label>Name *</label>
+            <input type="text" id="rName" placeholder="Full Name">
+        </div>
+        
+        <div class="form-group">
+            <label>Job Title *</label>
+            <input type="text" id="rJob" placeholder="Software Developer">
+        </div>
+        
+        <div class="form-group">
+            <label>Contact</label>
+            <div class="two-column">
+                <input type="email" id="rEmail" placeholder="email@example.com">
+                <input type="tel" id="rPhone" placeholder="Phone">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Summary</label>
+            <textarea id="rSummary" placeholder="Professional summary..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Skills</label>
+            <textarea id="rSkills" placeholder="JavaScript, Python, React..."></textarea>
+        </div>
+        
+        <button class="generate-btn" onclick="generateResume()">Generate Resume</button>
+        <button class="btn" onclick="showHome()" style="width: auto;">← Back</button>
+    </div>
+
+    <div id="bioDataForm" style="display: none;">
+        <h2>👤 Create Bio-Data</h2>
+        <div class="photo-upload">
+            <input type="file" id="biodataPhoto" accept="image/*" style="display: none;">
+            <div class="photo-placeholder" onclick="document.getElementById('biodataPhoto').click()">
+                📸 Photo
+            </div>
+            <img id="biodataPhotoPreview" class="profile-photo" alt="Photo">
+        </div>
+        
+        <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" id="bName" placeholder="Full Name">
+        </div>
+        
+        <div class="form-group">
+            <label>Personal Info</label>
+            <div class="two-column">
+                <select id="bGender">
+                    <option value="">Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+                <input type="date" id="bDob">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Contact</label>
+            <div class="two-column">
+                <input type="tel" id="bPhone" placeholder="Phone">
+                <input type="email" id="bEmail" placeholder="Email">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Address</label>
+            <textarea id="bAddress" placeholder="Complete address"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Family</label>
+            <div class="two-column">
+                <input type="text" id="bFather" placeholder="Father's Name">
+                <input type="text" id="bMother" placeholder="Mother's Name">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Education</label>
+            <textarea id="bEducation" placeholder="Degree | Year | %"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Occupation & Income</label>
+            <div class="two-column">
+                <input type="text" id="bJob" placeholder="Job/Profession">
+                <input type="text" id="bIncome" placeholder="Annual Income">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Hobbies</label>
+            <textarea id="bHobbies" placeholder="Reading, Travel, Sports..."></textarea>
+        </div>
+        
+        <button class="generate-btn" onclick="generateBioData()">Generate Bio-Data</button>
+        <button class="btn" onclick="showHome()" style="width: auto;">← Back</button>
+    </div>
+
+    <div id="previewContent" class="preview-content" style="display: none;">
+        <h3 id="previewTitle">Your Document</h3>
+        <div id="previewBody"></div>
+        <div style="margin-top: 25px;">
+            <button class="generate-btn" onclick="copyToClipboard()">📋 Copy</button>
+            <button class="generate-btn download-btn" onclick="downloadFile()">💾 Download</button>
+        </div>
+        <button class="btn" onclick="showHome()" style="width: auto; margin-top: 15px;">← New Document</button>
+    </div>
+</div>
+
+<script>
+/* JAVASCRIPT: Logic for photo processing, navigation, and document generation */
+let resumePhotoData = null;
+let biodataPhotoData = null;
+
+// Photo handler for Resume: Reads the file and converts to Data URL (Base64)
+document.getElementById('resumePhoto').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            resumePhotoData = e.target.result;
+            document.getElementById('resumePhotoPreview').src = resumePhotoData;
+            document.getElementById('resumePhotoPreview').style.display = 'block';
+            document.querySelector('#resumeForm .photo-placeholder').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Photo handler for Bio-Data: Same logic as above but for the Bio-Data form
+document.getElementById('biodataPhoto').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            biodataPhotoData = e.target.result;
+            document.getElementById('biodataPhotoPreview').src = biodataPhotoData;
+            document.getElementById('biodataPhotoPreview').style.display = 'block';
+            document.querySelector('#bioDataForm .photo-placeholder').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// NAVIGATION FUNCTIONS: Toggles between screens by changing CSS display property
+function showResumeForm() {
+    document.getElementById('homeScreen').style.display = 'none';
+    document.getElementById('bioDataForm').style.display = 'none';
+    document.getElementById('previewContent').style.display = 'none';
+    document.getElementById('resumeForm').style.display = 'block';
+}
+
+function showBioDataForm() {
+    document.getElementById('homeScreen').style.display = 'none';
+    document.getElementById('resumeForm').style.display = 'none';
+    document.getElementById('previewContent').style.display = 'none';
+    document.getElementById('bioDataForm').style.display = 'block';
+}
+
+function showHome() {
+    document.getElementById('resumeForm').style.display = 'none';
+    document.getElementById('bioDataForm').style.display = 'none';
+    document.getElementById('previewContent').style.display = 'none';
+    document.getElementById('homeScreen').style.display = 'block';
+}
+
+// GENERATE RESUME: Grabs input values and builds a professional HTML layout
+function generateResume() {
+    const name = document.getElementById('rName').value || 'John Doe';
+    const job = document.getElementById('rJob').value || 'Professional';
+    const email = document.getElementById('rEmail').value;
+    const phone = document.getElementById('rPhone').value;
+    const summary = document.getElementById('rSummary').value;
+    const skills = document.getElementById('rSkills').value;
+    
+    let html = `
+        <div style="text-align: center; margin-bottom: 30px;">
+            ${resumePhotoData ? `<img src="${resumePhotoData}" style="width: 120px; height: 120px; border-radius: 10px; object-fit: cover; border: 4px solid #3498db;">` : ''}
+            <h2 style="color: #2c3e50; margin: 10px 0;">${name}</h2>
+            <p style="color: #3498db; font-size: 18px; font-weight: bold;">${job}</p>
+            ${email || phone ? `<p>${email || ''} ${phone || ''}</p>` : ''}
+        </div>
+    `;
+    
+    if (summary) {
+        html += `<h3 style="color: #34495e; border-bottom: 2px solid #3498db;">Summary</h3><p>${summary}</p>`;
+    }
+    
+    if (skills) {
+        html += `<h3 style="color: #34495e; border-bottom: 2px solid #3498db;">Skills</h3><p>${skills}</p>`;
+    }
+    
+    document.getElementById('previewTitle').textContent = 'Professional Resume';
+    document.getElementById('previewBody').innerHTML = html;
+    document.getElementById('previewContent').style.display = 'block';
+    document.getElementById('resumeForm').style.display = 'none';
+}
+
+// GENERATE BIO-DATA: Grabs input values and builds a table-based Bio-Data layout
+function generateBioData() {
+    const name = document.getElementById('bName').value || 'John Doe';
+    const gender = document.getElementById('bGender').value;
+    const dob = document.getElementById('bDob').value;
+    const phone = document.getElementById('bPhone').value;
+    const email = document.getElementById('bEmail').value;
+    const address = document.getElementById('bAddress').value;
+    const father = document.getElementById('bFather').value;
+    const mother = document.getElementById('bMother').value;
+    const education = document.getElementById('bEducation').value;
+    const job = document.getElementById('bJob').value;
+    const income = document.getElementById('bIncome').value;
+    const hobbies = document.getElementById('bHobbies').value;
+    
+    let html = `
+        <div style="text-align: center; margin-bottom: 30px;">
+            ${biodataPhotoData ? `<img src="${biodataPhotoData}" style="width: 120px; height: 120px; border-radius: 10px; object-fit: cover; border: 4px solid #3498db;">` : ''}
+            <h2 style="color: #2c3e50;">BIODATA</h2>
+            <h3 style="color: #34495e;">${name}</h3>
+        </div>
+        <table class="biodata-table">
+            <tr><th>Particulars</th><th>Details</th></tr>
+            <tr><td><strong>Gender</strong></td><td>${gender || 'N/A'}</td></tr>
+            <tr><td><strong>Date of Birth</strong></td><td>${dob ? new Date(dob).toLocaleDateString() : 'N/A'}</td></tr>
+            <tr><td><strong>Phone</strong></td><td>${phone || 'N/A'}</td></tr>
+            <tr><td><strong>Email</strong></td><td>${email || 'N/A'}</td></tr>
+            ${address ? `<tr><td><strong>Address</strong></td><td>${address}</td></tr>` : ''}
+            ${father ? `<tr><td><strong>Father</strong></td><td>${father}</td></tr>` : ''}
+            ${mother ? `<tr><td><strong>Mother</strong></td><td>${mother}</td></tr>` : ''}
+            ${education ? `<tr><td><strong>Education</strong></td><td>${education}</td></tr>` : ''}
+            ${job ? `<tr><td><strong>Occupation</strong></td><td>${job}</td></tr>` : ''}
+            ${income ? `<tr><td><strong>Income</strong></td><td>${income}</td></tr>` : ''}
+            ${hobbies ? `<tr><td><strong>Hobbies</strong></td><td>${hobbies}</td></tr>` : ''}
+        </table>
+    `;
+    
+    document.getElementById('previewTitle').textContent = 'Complete Bio-Data';
+    document.getElementById('previewBody').innerHTML = html;
+    document.getElementById('previewContent').style.display = 'block';
+    document.getElementById('bioDataForm').style.display = 'none';
+}
+
+// UTILITY: Copies text content of the generated document to clipboard
+function copyToClipboard() {
+    const content = document.getElementById('previewBody').textContent;
+    navigator.clipboard.writeText(content).then(() => {
+        alert('✅ Copied to clipboard!');
+    });
+}
+
+// UTILITY: Downloads the generated document as a standalone HTML file
+function downloadFile() {
+    const title = document.getElementById('previewTitle').textContent;
+    const htmlContent = document.getElementById('previewBody').innerHTML;
+    
+    const fullHTML = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>${title}</title>
+            <style>
+                body { font-family: 'Segoe UI', sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; }
+                table { width: 100%; border-collapse: collapse; }
+                th { background: #3498db; color: white; padding: 12px; }
+                td { padding: 12px; border-bottom: 1px solid #ddd; }
+                h2, h3 { color: #2c3e50; text-align: center; }
+                img { width: 120px; height: 120px; border-radius: 10px; border: 4px solid #3498db; }
+            </style>
+        </head>
+        <body>${htmlContent}</body>
+        </html>
+    `;
+    
+    const blob = new Blob([fullHTML], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${title.toLowerCase().replace(/\s+/g, '_')}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+    alert('💾 Downloaded! Open in browser → Print → Save as PDF');
+}
+</script>
+</body>
+</html>
